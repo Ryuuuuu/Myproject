@@ -8,8 +8,10 @@ import re
 f=open("./$MFT.copy0",'rb')
 
 def hex_ch(buf,num):
+
 	string=''
 	i=num
+
 	while i>=0:
 		string += "%02X" % (ord(buf[i]))
 		i=i-1
@@ -33,9 +35,11 @@ def header_property(num):
 #		print num
 		property_con_buf = entry[num:num+4]
 		property_len_buf = entry[num+4:num+8]
+		resident_con_buf = entry[num+8:num+9]
 
 		property_con = int(hex_ch(property_con_buf,3),16)
 		property_len = int(hex_ch(property_len_buf,3),16)
+		resident_con = int(hex_ch(resident_con_buf,0),16)
 
 		resident = num+16
 	
@@ -55,7 +59,13 @@ def header_property(num):
 			elif property_con==0x30:
 				filename(property_size,property_info_offset)
 			elif property_con==0x80:
-				data(property_size,property_info_offset)
+				if resident_con == 1:
+					non_resident_data(property_size,property_info_offset)
+				elif resident_con == 0:
+					resident_data(property_size,property_info_offset) 	
+				else:
+					print "error"
+
 			else :
 				other(property_size,property_info_offset)
 
@@ -83,8 +93,18 @@ def filename(size, offset):
 	print "file name : "+filename
 	header_property(size)
 
-def data(size, offset):
-	print "data"
+def resident_data(size, offset):
+	print "resident data"
+	header_property(size)
+
+def non_resident_data(size, offset):
+#	print "non resident data"
+
+	runlist_start_buf = entry[offset+32:offset+34]
+	runlist_start = int(hex_ch(runlist_start_buf,1),16)
+
+	print "runlist start offset : "+str(hex(runlist_start))
+
 	header_property(size)
 
 def other(size, offset):
