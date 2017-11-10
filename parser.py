@@ -62,6 +62,8 @@ def header_property(num):
 				if resident_con == 1:
 					non_resident_data(property_size,property_info_offset)
 				elif resident_con == 0:
+					print "     "+"resident data"
+					print "     "+"data size : "+str(hex(property_len))
 					resident_data(property_size,property_info_offset) 	
 				else:
 					print "error"
@@ -75,8 +77,8 @@ def std_information(size, offset):
 	file_create_time_buf = entry[offset:offset+8]
 	file_create_time = int(hex_ch(file_create_time_buf,7),16)	
 #	date_create_time = filetime_to_dt(file_create_time)
-
-	print "create_time : "+str(hex(file_create_time))
+	print "---------------------------------------"
+	print "    "+"create_time : "+str(hex(file_create_time))
 	header_property(size)
 
 def filename(size, offset):
@@ -90,20 +92,20 @@ def filename(size, offset):
 
 #	print "filename!!"
 #	print "file name len : "+str(filename_len)
-	print "file name : "+filename
+	print "    "+"file name : "+filename
 	header_property(size)
 
 def resident_data(size, offset):
-	print "resident data"
 	header_property(size)
 
+
 def non_resident_data(size, offset):
-#	print "non resident data"
+	print "    "+"non resident data"
 
 	runlist_start_buf = entry[offset+32:offset+34]
 	runlist_start = int(hex_ch(runlist_start_buf,1),16)
 
-	print "runlist start offset : "+str(hex(runlist_start))
+#	print "runlist start offset : "+str(hex(runlist_start))
 
 	header_property(size)
 
