@@ -113,11 +113,12 @@ def other(size, offset):
 #	print "else"
 	header_property(size)
 
-while 1:
-	entry=f.read(1024)
-	entrylen = len(entry) 
-	if entrylen == 0: break
-	header_property(entry_header()-1)
-#	print "cycle!!"
-	pause()
+if __name__ =='__main__':
+	while 1:
+		entry=f.read(1024)
+		entrylen = len(entry) 
+		if entrylen == 0: break
+		header_property(entry_header()-1)
+	#	print "cycle!!"
+		pause()
 f.close()
