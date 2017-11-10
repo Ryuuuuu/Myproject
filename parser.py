@@ -119,6 +119,6 @@ if __name__ =='__main__':
 		entrylen = len(entry) 
 		if entrylen == 0: break
 		header_property(entry_header()-1)
-	#	print "cycle!!"
+#		print "cycle!!"
 		pause()
 f.close()
